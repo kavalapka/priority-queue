@@ -23,7 +23,6 @@ class Node {
 	  if(this.left === node) {
       this.left.parent = null;
 	    this.left = null;
-
     } else
       if (this.right === node) {
 	    this.right.parent = null;
@@ -40,61 +39,40 @@ class Node {
 
 	swapWithParent() {
     if (!this.parent) {return}
-    var parent = this.parent;
     var child = this;
-    //console.log('parent, child:', parent);
+    var parent = this.parent;
+    var grand_pa = parent.parent;
+    var p_left = parent.left;
+    var p_right = parent.right;
+    var ch_left = child.left;
+    var ch_right = child.right;
 
-
-    if (this.parent.left === this) {
-      this.left = parent;
-      this.right = parent.right;
-      this.right.parent = this;
-    } else {
-      this.right = parent;
-      this.left = parent.left;
-      this.left.parent = this;
-    }
-    this.parent = parent.parent;
-
-    //new_child
-    parent.parent = this;
-    parent.left = child.left;
-    parent.left.parent = parent;
-    parent.right = child.right;
-    parent.right.parent = parent;
-
-
-
-
-    console.log('new parent', this);
-
-
-
-
-
-
-    /*var child = this;
-    var grand_pa = this.parent.parent;
-    parent.removeChild(child);
-    console.log('parent RM child', parent, child)
-      child.removeChild(child.left)
-    } else if ()
-
-
-    if(grand_pa) {
-      grand_pa.removeChild(parent);
-      child.appendChild(parent);
-      grand_pa.appendChild(child);
-    } else {
-      child.appendChild(parent);
-      console.log('child.append parent', child)
-      if(parent.left) {
-        child.appendChild(parent.left)
-      } else if (parent.right) {
-        child.appendChild(parent.right)
+    if (grand_pa) {
+      child.parent = grand_pa;
+      if (grand_pa.left === parent){
+        grand_pa.left = child;
+      } else {
+        grand_pa.right = child;
       }
-      console.log('child.append subling', child)
-    }*/
+    }
+
+    if (p_left === child) {
+      child.left = parent;
+      child.right = p_right;
+      if (p_right) {
+        p_right.parent = child;
+      }
+    } else {
+      child.right = parent;
+      child.left = p_left;
+      if (p_left) {
+        p_left.parent = child;
+      }
+    }
+
+    parent.left = ch_left;
+    parent.right = ch_right;
+    parent.parent = child;
 
 	}
 }
