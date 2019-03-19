@@ -74,11 +74,7 @@ class MaxHeap {
 	}
 
 	isEmpty() {
-	  if(!this.root) {
-	    return true
-	  } else {
-	    return false
-    }
+	  return !this.root;
 	}
 
 	clear() {

@@ -9,8 +9,7 @@ class Node {
 	}
 
 	appendChild(node) {
-    //console.log('this parent append', this)
-    if (!node) return
+    if (!node) return;
     if (this === node) {
       throw 'Add self as root'
     }
@@ -80,12 +79,14 @@ class Node {
     parent.right = ch_right;
     parent.parent = child;
 
-    if(ch_left){
+    if(ch_left && ch_right){
       ch_left.parent = parent;
+      ch_right.parent = parent;
     } else if (ch_right) {
       ch_right.parent = parent;
+    } else if(ch_left){
+      ch_left.parent = parent;
     }
-
 	}
 }
 

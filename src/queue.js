@@ -4,35 +4,27 @@ class PriorityQueue {
 	constructor(maxSize) {
 		this.maxSize = maxSize || 30;
 		this.heap = new MaxHeap();
-		this.size_count = 0;
-
 	}
 
 	push(data, priority) {
-    if (this.size_count === this.maxSize) {
+    if (this.size() === this.maxSize) {
       throw this}
     this.heap.push(data, priority);
-    this.size_count +=1;
-
 	}
 
 	shift() {
     if (this.isEmpty()) {
       throw this}
-		this.heap.pop();
-    this.size_count -=1;
-
-
-    return this.heap.root.data;
+		const root_data  = this.heap.pop();
+    return root_data;
 	}
 
 	size() {
-		return this.size_count
+		return this.heap.size();
 	}
 
 	isEmpty() {
-		if (this.size_count === 0) {return true}
-		else {return false}
+		return this.size() === 0;
 	}
 }
 
