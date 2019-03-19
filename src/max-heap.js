@@ -19,46 +19,27 @@ class MaxHeap {
 	}
 
 	pop() {
-    if(this.isEmpty()) return;
-    if (this.size() === 1) {
-      this.detachRoot()
-      const ret = this.root.data
-      this.clear()
-      return ret
+    if(this.isEmpty()) {
+      return;
     }
-    console.log('Size: ', this.size(), this.heap_size)
+    // if (this.size() === 1) {
+    //   this.detachRoot()
+    //   const ret = this.root.data
+    //   this.clear()
+    //   return ret
+    // }
+
+
+    console.log('Size: ', this.size())
     console.log('Root: ', this.root)
-    console.log('Parent nodes: ', this.parentNodes)
-    this.heap_size-=1;
-
-    const max_data = this.root.data;
-    console.log('root', this.root.data, this.root.priority)
-
-
-    const leaf = this.parentNodes.pop()
-    leaf.parent.removeChild(leaf);
-    leaf.parent = null
-    console.log('leaf', leaf);
-    const left = this.root.left
-    const right = this.root.right
-    if (leaf === left){
-      leaf.appendChild(right)
-    } else if (leaf == right) {
-      leaf.appendChild(left)
-    } else {
-      leaf.appendChild(left)
-      leaf.appendChild(right)
+    const old_root = this.detachRoot()
+    this.heap_size -= 1
+    this.restoreRootFromLastInsertedNode(old_root)
+    if (this.root){
+      this.shiftNodeDown(this.root)
     }
-    this.detachRoot()
-    this.root = leaf
 
-    //this.root.data = leaf.data;
-    //this.root.priority = leaf.priority;
-    //
-    this.shiftNodeDown(leaf);
-
-    console.log('return', max_data);
-		return max_data;
+    return old_root.data
 	}
 
 	detachRoot() {
@@ -79,6 +60,9 @@ class MaxHeap {
 
 	restoreRootFromLastInsertedNode(detached) {
 	  const new_root = this.parentNodes.pop()
+    if (!new_root){
+	    return
+    }
     if (detached.left !== new_root){
       new_root.appendChild(detached.left)
     }
@@ -106,8 +90,6 @@ class MaxHeap {
 
 	size() {
 	  return this.heap_size;
-
-
 	}
 
 	isEmpty() {
