@@ -152,6 +152,15 @@ describe('MaxHeap', () => {
 			];
 		});
 
+		it('kavalapka', () => {
+		  const q = new Node(1,1);
+		  const w = new Node(2,2);
+			const a = [q, w];
+			expect(a.indexOf(w)).to.equal(1);
+			expect(a.indexOf(q)).to.equal(0);
+
+		});
+
 		it('shifts node up until heap property is valid', () => {
 			const newRoot = h.root.left.left;
 			h.shiftNodeUp(h.root.left.left);
@@ -353,10 +362,12 @@ describe('MaxHeap', () => {
      14  13  0   12                14  13  0
  **/
 
+      console.log('Before all: ', h.parentNodes.map(n=>n.priority))
 			const detached = h.detachRoot();
 			h.restoreRootFromLastInsertedNode(detached);
 
 			expect(h.parentNodes.map(n=>n.priority)).to.deep.equal([16,14,13,0]);
+			expect(h.root.parent).to.equal(null)
 		});
 
 	});

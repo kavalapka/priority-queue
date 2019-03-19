@@ -10,6 +10,10 @@ class Node {
 
 	appendChild(node) {
     //console.log('this parent append', this)
+    if (!node) return
+    if (this === node) {
+      throw 'Add self as root'
+    }
 		if(this.left && this.right) {return}
 		if (this.left) {
 			this.right = node;
@@ -39,13 +43,13 @@ class Node {
 
 	swapWithParent() {
     if (!this.parent) {return}
-    var child = this;
-    var parent = this.parent;
-    var grand_pa = parent.parent;
-    var p_left = parent.left;
-    var p_right = parent.right;
-    var ch_left = child.left;
-    var ch_right = child.right;
+    const child = this;
+    const parent = this.parent;
+    const grand_pa = parent.parent;
+    const p_left = parent.left;
+    const p_right = parent.right;
+    const ch_left = child.left;
+    const ch_right = child.right;
 
     if (grand_pa) {
       child.parent = grand_pa;
@@ -54,6 +58,8 @@ class Node {
       } else {
         grand_pa.right = child;
       }
+    } else {
+      child.parent = null;
     }
 
     if (p_left === child) {
@@ -73,6 +79,12 @@ class Node {
     parent.left = ch_left;
     parent.right = ch_right;
     parent.parent = child;
+
+    if(ch_left){
+      ch_left.parent = parent;
+    } else if (ch_right) {
+      ch_right.parent = parent;
+    }
 
 	}
 }
