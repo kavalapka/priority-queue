@@ -170,6 +170,14 @@ describe('MaxHeap', () => {
 			const newRoot = h.root.left.left;
 			h.shiftNodeUp(h.root.left.left);
 			expect(h.root).to.equal(newRoot);
+			expect(newRoot.parent).to.equal(null);
+			expect(newRoot.left).to.equal(h.root.left);
+			expect(h.root.left.parent).to.equal(newRoot);
+			expect(newRoot.right).to.equal(h.root.right);
+			expect(h.root.right.parent).to.equal(newRoot);
+			expect(newRoot.left.left).to.equal(h.root.left.left);
+			expect(h.root.left.left.parent).to.equal(h.root.left);
+      expect(h.root.left.left.left).to.equal(null);
 		});
 
 		it('maintants parentNodes in correct state', () => {
@@ -252,6 +260,7 @@ describe('MaxHeap', () => {
 			h.pop();
 
 			expect(h.detachRoot).to.have.been.called;
+			expect(h.root).to.equal(null);
 		});
 
 		it('calls restoreRootFromLastInsertedNode with detached root', () => {
@@ -280,6 +289,8 @@ describe('MaxHeap', () => {
 
 			h.pop();
 			expect(h.shiftNodeDown).to.have.been.calledWith(expectedNodeToShiftDown);
+      expect(h.shiftNodeDown.firstCall.args[0].data).to.equal(15);
+
 		});
 	});
 
@@ -336,8 +347,11 @@ describe('MaxHeap', () => {
 			h.restoreRootFromLastInsertedNode(detached);
 
 			expect(h.root).to.equal(lastInsertedNode);
+			expect(lastInsertedNode.parent).to.equal(null);
 			expect(h.root.left).to.equal(left);
 			expect(left.parent).to.equal(lastInsertedNode);
+			expect(lastInsertedNode.left).to.equal(left);
+			expect(lastInsertedNode.right).to.equal(null);
 		});
 
 		it('should maintain correct state of parentNodes', () => {

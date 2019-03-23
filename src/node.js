@@ -44,6 +44,7 @@ class Node {
     if (!this.parent) {return}
     const child = this;
     const parent = this.parent;
+    if (this.priority === this.parent.priority) {return}
     const grand_pa = parent.parent;
     const p_left = parent.left;
     const p_right = parent.right;

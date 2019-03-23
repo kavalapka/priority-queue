@@ -145,6 +145,24 @@ describe('Node', () => {
 			expect(child.right).to.equal(null);
 		});
 
+    it('updates parent.right', () => {
+      const parent = new Node(15, 42);
+      const child = new Node(42, 15);
+
+      parent.right = child;
+      child.parent = parent;
+      child.swapWithParent();
+
+      expect(parent.parent).to.equal(child);
+      expect(parent.left).to.equal(null);
+      expect(parent.right).to.equal(null);
+      expect(parent.parent.parent).to.equal(null);
+
+      expect(child.parent).to.equal(null);
+      expect(child.right).to.equal(parent);
+      expect(child.left).to.equal(null);
+    });
+
 		it('updates parent.parent.parent', () => {
 			const root = new Node(8, 8);
 			const child = new Node(4, 4);
@@ -236,5 +254,25 @@ describe('Node', () => {
 			expect(childOfLeft.left).to.equal(left);
 			expect(childOfRight.left).to.equal(right);
 		});
+
+    it('maintains correct state of parent if right.priority is equal', () => {
+      const root = new Node(15, 42);
+      const left = new Node(42, 15);
+      const right = new Node(13, 42);
+      const childOfLeft = new Node(13, 34);
+      const childOfRight = new Node(0, 1);
+
+      root.appendChild(left);
+      root.appendChild(right);
+      left.appendChild(childOfLeft);
+      right.appendChild(childOfRight);
+
+
+      right.swapWithParent();
+      expect(root.data).to.equal(15);
+      expect(root.priority).to.equal(42);
+      expect(root.right).to.equal(right);
+    });
+    
 	});
 });
