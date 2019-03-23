@@ -9,11 +9,19 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "@babel/cli": "^7.2.3",
+    "@babel/core": "^7.3.4",
+    "@babel/preset-env": "^7.3.4",
+    "@babel/preset-es2015": "^7.0.0-beta.53",
     "chai": "^3.5.0",
     "mocha": "^3.0.2",
-    "sinon": "^1.17.5",
+    "sinon": "^1.17.7",
     "sinon-chai": "^2.8.0",
     "webpack": "^1.13.1",
     "webpack-dev-server": "^1.14.1"
+  },
+  "dependencies": {
+    "@babel/polyfill": "^7.2.5",
+    "babel-cli": "^6.26.0"
   }
 }

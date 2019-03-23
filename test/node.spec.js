@@ -29,6 +29,7 @@ describe('Node', () => {
 			parent.appendChild(leftChild);
 
 			expect(parent.left).to.equal(leftChild);
+			expect(leftChild.parent).to.equal(parent);
 			expect(parent.right).to.equal(null);
 		});
 
@@ -37,7 +38,9 @@ describe('Node', () => {
 			parent.appendChild(rightChild);
 
 			expect(parent.left).to.equal(leftChild);
+      expect(leftChild.parent).to.equal(parent);
 			expect(parent.right).to.equal(rightChild);
+      expect(rightChild.parent).to.equal(parent);
 		});
 
 		it('does nothing if this.left and this.right exist', () => {
@@ -105,10 +108,14 @@ describe('Node', () => {
 
 			sinon.spy(parent, 'removeChild');
 
+			expect(parent.left).to.equal(child);
+
 			child.remove();
 
 			expect(parent.removeChild).to.have.been.calledOnce;
 			expect(parent.removeChild).to.have.been.calledWith(child);
+			expect(parent.left).to.equal(null);
+			expect(child.parent).to.equal(null);
 		});
 	});
 
@@ -129,6 +136,13 @@ describe('Node', () => {
 			child.swapWithParent();
 
 			expect(parent.parent).to.equal(child);
+			expect(parent.left).to.equal(null);
+			expect(parent.right).to.equal(null);
+			expect(parent.parent.parent).to.equal(null);
+
+			expect(child.parent).to.equal(null);
+			expect(child.left).to.equal(parent);
+			expect(child.right).to.equal(null);
 		});
 
 		it('updates parent.parent.parent', () => {
@@ -143,6 +157,12 @@ describe('Node', () => {
 
 			expect(child.parent).to.equal(grandson);
 			expect(grandson.parent).to.equal(root);
+      expect(grandson.parent.parent).to.equal(null);
+			expect(grandson.left).to.equal(child);
+			expect(grandson.right).to.equal(null);
+			expect(child.parent.parent).to.equal(root);
+			expect(child.left).to.equal(null);
+			expect(child.right).to.equal(null);
 		});
 
 		it('updates child.parent', () => {
@@ -168,6 +188,10 @@ describe('Node', () => {
 			right.swapWithParent();
 
 			expect(left.parent).to.equal(right);
+			expect(right.parent).to.equal(null);
+			expect(right.left).to.equal(left);
+			expect(right.right).to.equal(root);
+			expect(root.parent).to.equal(right);
 		})
 
 		it('updates children of node and parent node', () => {
@@ -183,8 +207,11 @@ describe('Node', () => {
 			left.swapWithParent();
 
 			expect(left.right).to.equal(right);
+			expect(right.parent).to.equal(left);
 			expect(left.left).to.equal(root);
+			expect(root.parent).to.equal(left);
 			expect(root.left).to.equal(childOfLeft);
+			expect(childOfLeft.parent).to.equal(root);
 		});
 
 		it('maintains correct state of parent.parent.left and parent.parent.right', () => {
@@ -203,7 +230,11 @@ describe('Node', () => {
 			childOfRight.swapWithParent();
 
 			expect(root.left).to.equal(childOfLeft);
+			expect(childOfLeft.parent).to.equal(root);
 			expect(root.right).to.equal(childOfRight);
+			expect(childOfRight.parent).to.equal(root);
+			expect(childOfLeft.left).to.equal(left);
+			expect(childOfRight.left).to.equal(right);
 		});
 	});
 });

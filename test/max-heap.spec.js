@@ -77,7 +77,12 @@ describe('MaxHeap', () => {
 			expect(h.root.left).to.equal(nodes[1]);
 			expect(h.root.right).to.equal(nodes[2]);
 			expect(h.root.left.left).to.equal(nodes[3]);
+      expect(h.root.left.left.parent).to.equal(nodes[1]);
 			expect(h.root.left.right).to.equal(nodes[4]);
+      expect(h.root.right.left).to.equal(nodes[5]);
+      expect(h.root.right.right).to.equal(nodes[6]);
+      expect(h.root.right.right.parent).to.equal(nodes[2]);
+      expect(h.root.right.parent).to.equal(nodes[0]);
 		});
 
 		it('maintains this.parentNodes in correct state', () => {
@@ -362,7 +367,6 @@ describe('MaxHeap', () => {
      14  13  0   12                14  13  0
  **/
 
-      console.log('Before all: ', h.parentNodes.map(n=>n.priority))
 			const detached = h.detachRoot();
 			h.restoreRootFromLastInsertedNode(detached);
 
