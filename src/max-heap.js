@@ -54,8 +54,11 @@ class MaxHeap {
       new_root.appendChild(detached.right)
     }
     if (!(new_root.left && new_root.right)) {
+      console.log('parent.nodes', this.parentNodes.map(x => x.priority), '\n');
       this.parentNodes.unshift(new_root);
-      this.parentNodes.sort(x => x.priority)
+      console.log('parent.nodes unshift', this.parentNodes.map(x => x.priority), '\n');
+      //this.parentNodes.sort(x => x.priority)
+      console.log('parent.nodes sort', this.parentNodes.map(x => x.priority), '\n');
     }
 
     const old_sub_parent = new_root.parent;
@@ -143,7 +146,7 @@ class MaxHeap {
       child = node.right;
     }
 
-    if (child.priority < node.priority) return;
+    if (child.priority <= node.priority) return;
     if (this.root === node ){
       this.root = child;
     }
